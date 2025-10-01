@@ -67,3 +67,88 @@
 # print(agent("What is 25*5?"))
 # print(agent("Who is the president of Pakistan?"))
 
+#five task in basic tool
+# Step 1: Basic Calculator Tool (LangChain style)
+from langchain.tools import tool
+
+@tool
+def calculator(expression: str) ->str:
+    """Useful for doing basic arithmetic calculations. Input should be a math expression (e.g., 2+2*5)."""
+    try:
+        result = eval(expression)
+        return str(result)
+    except Exception as e:
+        return f"Error: {str(e)} "
+
+print(calculator.run("2+3*4"))
+
+# Step 2: Word Counter Tool
+from langchain.tools import tool
+
+@tool
+def word_counter(text: str) -> str:
+    """Counter the nnumber of words in the given text."""
+    try:
+        words = text.split()
+        count = len(words)
+        return f"Eord Count {count}"
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+# Tool test karte hain
+print(word_counter.run("LangChain makes building LLM applications easier."))
+
+# Step 3: String Reverser Tool
+
+from langchain.tools import tool
+@tool
+def string_reverse(text: str) -> str:
+    """Reverse the given string."""
+    try:
+        return text[::-1]
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+print(string_reverse.run("LangChain"))
+
+# Step 4: Translator Tool (Simple Version)
+
+from langchain.tools import tool
+
+#Simple dictionary
+eng_to_urdu = {
+    "hello": "السلام علیکم",
+    "world": "دنیا",
+    "good": "اچھا",
+    "morning": "صبح",
+    "night": "رات"
+}
+
+@tool
+def Translation(text: str) -> str:
+    """Translates simple English words to Urdu using a fixed dictionary"""
+    try:
+        words = text.lower().split()
+        translate = [eng_to_urdu.get(word, word) for word in words]
+        return "".join(translate)
+    except Exception as e:
+        return f"Error: {str(e)}"
+    
+print(Translation.run("good"))
+
+from langchain.tools import tool
+
+@tool
+def file_reader(file_path: str) -> str:
+    """Reads a text file and returns  its content"""
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            connect = f.read()
+        return connect
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+with open("sample.txt", "w", encoding="utf-8") as f:
+    f.write("This is a test file.\nLangChain tools are very useful!")
+
+print(file_reader.run("sample.txt"))

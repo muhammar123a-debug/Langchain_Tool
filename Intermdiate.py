@@ -26,3 +26,20 @@ def weather_tool(city: str) -> str:
 
 # 🔹 Test
 print(weather_tool.run("pune"))
+
+import csv
+from langchain.tools import tool
+
+@tool
+def csv_reader(file_path: str) -> str:
+    """Read a CSV file and return its rows"""
+    try:
+        with open(file_path, mode="r", encoding="utf-8") as f:
+            reader = csv.reader(f)
+            rows = [", ".join(row) for row in reader]
+        return "\n".join(rows)
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+if __name__ == "__main__":
+    print(csv_reader.run("sample.csv"))
